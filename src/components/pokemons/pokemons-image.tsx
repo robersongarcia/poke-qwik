@@ -29,10 +29,10 @@ export const PokemonImage = component$(({id,size = 150, backImage = false, isVis
                     src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon${backImage?"/back":""}/${id}.png`} 
                     alt="Pokemon Sprite" 
                    onLoad$={() => imageLoaded.value = true}
-                   class={{
+                   class={[{
                           "hidden": !imageLoaded.value,
                           "brightness-0": !isVisible 
-                   }}
+                   }, {"transition-all": true}]}
                 />
             </div>)
 })
