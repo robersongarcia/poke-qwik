@@ -14,10 +14,10 @@ export default component$(() => {
         <ul>
           <li>
             <a
-              href="https://qwik.builder.io/tutorial/welcome/overview/"
+              href="https://github.com/robersongarcia"
               target="_blank"
             >
-              Tutorials
+              Roberson
             </a>
           </li>
         </ul>

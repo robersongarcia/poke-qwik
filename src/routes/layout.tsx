@@ -21,7 +21,7 @@ export default component$(() => {
   useStyles$(styles);
   return (
     <>
-      < Navbar/>
+      <Navbar/>
       <main class="flex flex-col items-center justify-center">
         <Slot />
       </main>
