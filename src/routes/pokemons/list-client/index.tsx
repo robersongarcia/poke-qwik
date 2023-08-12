@@ -6,7 +6,7 @@ import type { SmallPokemon } from '~/interfaces';
 
 interface PokemonPageState {
   currentPage: number;
-  pokemons: SmalPokemon[];
+  pokemons: SmallPokemon[];
   isLoading: boolean;
   isFinished: boolean;
 }
