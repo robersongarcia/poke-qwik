@@ -1,4 +1,4 @@
-import { component$, useStore, useVisibleTask$ } from '@builder.io/qwik';
+import { $, component$, useOnDocument, useStore, useTask$, useVisibleTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemons-image';
 import { getPokemons } from '~/helpers/getPokemons';
@@ -6,22 +6,47 @@ import type { SmallPokemon } from '~/interfaces';
 
 interface PokemonPageState {
   currentPage: number;
-  pokemons: SmallPokemon[];
+  pokemons: SmalPokemon[];
+  isLoading: boolean;
+  isFinished: boolean;
 }
 
 export default component$(() => {
 
   const pokemonState = useStore<PokemonPageState>({
     currentPage: 0,
-    pokemons: []
+    pokemons: [],
+    isLoading: false,
+    isFinished: false
   })
 
-  useVisibleTask$(async ({track}) => {
+  // useVisibleTask$(async ({track}) => {
+  //   track(() => pokemonState.currentPage)
+
+  //   const pokemons = await getPokemons(pokemonState.currentPage*10)
+  //   pokemonState.pokemons = [...pokemonState.pokemons,...pokemons]
+
+  // })
+
+  useOnDocument('scroll', $((event) => {
+    console.log(event)
+    const maxScroll = document.body.scrollHeight
+    const currentScroll = window.scrollY + window.innerHeight
+
+    if((currentScroll + 200 >= maxScroll) && (!pokemonState.isLoading)) {
+      pokemonState.isLoading = true
+      pokemonState.currentPage++
+    }
+  }))
+
+  useTask$(async ({track}) => {
     track(() => pokemonState.currentPage)
+    pokemonState.isLoading = true
 
-    const pokemons = await getPokemons(pokemonState.currentPage*10)
-    pokemonState.pokemons = pokemons
+    const pokemons = await getPokemons(pokemonState.currentPage*10, 30)
+    pokemonState.pokemons = [...pokemonState.pokemons,...pokemons]
 
+    pokemonState.isLoading = false
   })
 
     return (<>
@@ -32,11 +57,11 @@ export default component$(() => {
       </div>
 
       <div class="mt-10">
-        <button  
+        {/* <button  
           onClick$={() => pokemonState.currentPage--}        
           class="btn btn-primary mr-2">
             Prev
-        </button>
+        </button> */}
         <button           
           onClick$={() => pokemonState.currentPage++}
           class="btn btn-primary mr-2">
@@ -44,7 +69,7 @@ export default component$(() => {
         </button>
       </div>
 
-      <div class="grid grid-cols-5 mt-5">
+      <div class="grid sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-7 mt-5">
         {
           pokemonState.pokemons.map((pokemon)=> (
             <div class="m-5 flex flex-col justify-center items-center" key={pokemon.name}><span class="capitalize">{pokemon.name}</span>
