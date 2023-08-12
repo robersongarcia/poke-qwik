@@ -2,6 +2,6 @@ import { component$ } from '@builder.io/qwik';
 
 export default component$(() => {
   return <>
-            <h1>Hola mundo</h1>
+            <h1>Hola Pokemons Index</h1>
         </>
 });

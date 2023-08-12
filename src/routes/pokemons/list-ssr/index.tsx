@@ -1,6 +1,6 @@
 import { component$ } from '@builder.io/qwik';
 import { type DocumentHead, Link, routeLoader$ } from '@builder.io/qwik-city';
-import { PokemonsInfo, type PokemonListResponse } from "../../../interfaces/pokemon-list-response";
+import { type PokemonsInfo, type PokemonListResponse } from "../../../interfaces/pokemon-list-response";
 
 
 export const usePokemonList = routeLoader$<PokemonsInfo[]>(async () => {

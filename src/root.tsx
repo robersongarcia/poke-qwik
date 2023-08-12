@@ -1,4 +1,4 @@
-import { component$ } from "@builder.io/qwik";
+import { component$, useVisibleTask$ } from "@builder.io/qwik";
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -15,6 +15,21 @@ export default component$(() => {
    *
    * Don't remove the `<head>` and `<body>` elements.
    */
+
+  useVisibleTask$(() => {
+    console.log(
+      "%c🔍 Qwik Click-To-Source",
+      "background: #564CE0; color: white; padding: 2px 3px; border-radius: 2px; font-size: 0.8em;",
+      "Fix for Windows"
+    );
+    (globalThis as any).qwikOpenInEditor = function (path: string) {
+      const resolvedURL = new URL(path, "http://local.local");
+      const params = new URLSearchParams();
+      const srcDir = (globalThis as any).qwikdevtools.srcDir;
+      params.set("file", srcDir + resolvedURL.pathname);
+      fetch("/__open-in-editor?" + params.toString());
+    };
+  });
 
   return (
     <QwikCityProvider>
