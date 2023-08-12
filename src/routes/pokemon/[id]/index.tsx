@@ -1,5 +1,5 @@
 import { component$ } from '@builder.io/qwik';
-import { routeLoader$ } from '@builder.io/qwik-city';
+import { type DocumentHead, routeLoader$ } from '@builder.io/qwik-city';
 import { PokemonImage } from '~/components/pokemons/pokemons-image';
 
 export const usePokemonId = routeLoader$<number>(({params, redirect}) => {
@@ -34,3 +34,13 @@ export default component$(() => {
     </>
   )
 });
+
+export const head: DocumentHead = {
+  title: "Pokemon",
+  meta: [
+    {
+      name: "description",
+      content: "a individual pokemon",
+    },
+  ],
+};
