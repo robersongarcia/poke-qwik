@@ -1,45 +1,48 @@
-import { $, component$, useSignal } from "@builder.io/qwik";
+import { $, component$, useContext } from "@builder.io/qwik";
 import { type DocumentHead, useNavigate } from "@builder.io/qwik-city";
 import { PokemonImage } from "~/components/pokemons/pokemons-image";
+import { PokemonGameContext } from "~/context";
 
 export default component$(() => {
 
-  const pokemonId = useSignal<number>(1) // for primitives types, booleans, strings, numbers
-  const showBack = useSignal<boolean>(false) // for primitives types, booleans, strings, numbers
-  const visibility = useSignal<boolean>(true) // for primitives types, booleans, strings, numbers
+  const pokemonGame = useContext(PokemonGameContext)
+
+  // const pokemonId = useSignal<number>(1) // for primitives types, booleans, strings, numbers
+  // const showBack = useSignal<boolean>(false) // for primitives types, booleans, strings, numbers
+  // const visibility = useSignal<boolean>(true) // for primitives types, booleans, strings, numbers
   const nav = useNavigate()
 
   const changePokemonId = $((value: number) => {
 
-    if(pokemonId.value + value <= 0) return
+    if(pokemonGame.pokemonId + value <= 0) return
 
-    pokemonId.value += value;
+    pokemonGame.pokemonId += value;
 
   })
 
   const gotToPokemon = $(async () => {
-    await nav(`pokemon/${pokemonId.value}`)
+    await nav(`pokemon/${pokemonGame.pokemonId}`)
   })
 
   return (
     <>
       <span class="text-2xl" >Simple Search</span>
-      <span class="text-9xl">{ pokemonId }</span>
+      <span class="text-9xl">{ pokemonGame.pokemonId }</span>
 
 
       <div onClick$={() => gotToPokemon()}>
         <PokemonImage 
-          id={pokemonId.value} 
-          backImage={showBack.value} 
-          isVisible={visibility.value}
+          id={pokemonGame.pokemonId} 
+          backImage={pokemonGame.showBack} 
+          isVisible={pokemonGame.visibility}
         />
       </div>
 
       <div class="mt-2">
         <button onClick$={ () => changePokemonId(-1) } class="btn btn-primary mr-2">Prev</button>
         <button onClick$={ () => changePokemonId(+1) } class="btn btn-primary mr-2">Next</button>
-        <button onClick$={ () => visibility.value = !visibility.value } class="btn btn-primary mr-2">{visibility.value ? "Hide": "Show"}</button>
-        <button onClick$={ () => showBack.value = !showBack.value } class="btn btn-primary">Flip</button>
+        <button onClick$={ () => pokemonGame.visibility = !pokemonGame.visibility } class="btn btn-primary mr-2">{pokemonGame.visibility ? "Hide": "Show"}</button>
+        <button onClick$={ () => pokemonGame.showBack = !pokemonGame.showBack } class="btn btn-primary">Flip</button>
       </div>
     </>
   );

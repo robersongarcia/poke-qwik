@@ -5,6 +5,8 @@ import Navbar from "~/components/shared/navbar/navbar";
 import Footer from "~/components/shared/footer/footer";
 
 import styles from "./styles.css?inline";
+import { PokemonProvider } from "~/context";
+
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -18,14 +20,31 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 };
 
 export default component$(() => {
+
+  // const pokemonGame = useStore<pokemonGameState>({
+  //   pokemonId: 1,
+  //   showBack: false,
+  //   visibility: true
+  // })
+
+  // const pokemonList = useStore<PokemonListState>({
+  //   currentPage: 0,
+  //   isLoading: false,
+  //   isFinished: false,
+  //   pokemons: []
+  // })
+
+  // useContextProvider(PokemonGameContext, pokemonGame)
+  // useContextProvider(PokemonListContext, pokemonList)
+
   useStyles$(styles);
   return (
-    <>
+    <PokemonProvider>
       <Navbar/>
       <main class="flex flex-col items-center justify-center">
         <Slot />
       </main>
       <Footer />
-    </>
+    </PokemonProvider>
   );
 });
