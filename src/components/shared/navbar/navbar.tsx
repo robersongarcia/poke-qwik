@@ -22,6 +22,12 @@ export default component$(() => {
           <li>
             <Link href="/counter/">Counter</Link>
           </li>
+          <li>
+            <Link href="/login/">Login</Link>
+          </li>
+          <li>
+            <Link href="/dashboard/">Admin Dashboard</Link>
+          </li>
         </ul>
       </div>
     </header>

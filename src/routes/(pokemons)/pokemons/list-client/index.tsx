@@ -33,7 +33,7 @@ export default component$(() => {
   // })
 
   useOnDocument('scroll', $((event) => {
-    console.log(event)
+    // console.log(event)
     const maxScroll = document.body.scrollHeight
     const currentScroll = window.scrollY + window.innerHeight
 
